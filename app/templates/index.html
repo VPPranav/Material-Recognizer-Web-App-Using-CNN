@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Recognizer | AI-Powered Material Analysis</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 3D Background Animation -->
+    <div class="background-animation">
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="glow-circle"></div>
+        <div class="glow-circle"></div>
+        <div class="glow-circle"></div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="loading-text">Analyzing material...</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Material Recognizer</h1>
+            <p>Upload an image to identify materials with our advanced AI technology <br> NOTE : This model is trained to Identify images of Materials like Cardboard , Plastic , Paper , Glass , Metal Cans ( Not Pure Metal Scraps and other Metal Components only Cans )</p>
+        </div>
+        
+        <form action="/predict" method="post" enctype="multipart/form-data" id="upload-form">
+            <div class="upload-container">
+                <div class="file-input-wrapper">
+                    <input type="file" name="image" id="image-input" accept="image/*" required class="file-input">
+                </div>
+                
+                <div class="preview-container" id="preview-container">
+                    <img id="preview-image" class="preview-image" src="/placeholder.svg" alt="Preview">
+                </div>
+            </div>
+            
+            <button type="submit" class="submit-btn" id="submit-btn">
+                <i class="fas fa-microscope"></i> Analyze Material
+            </button>
+        </form>
+        
+        <div class="footer">
+            <p> &copy; 2025 Material Recognition Project Developed By Pranav V P. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        // Image preview functionality
+        const imageInput = document.getElementById('image-input');
+        const previewContainer = document.getElementById('preview-container');
+        const previewImage = document.getElementById('preview-image');
+        const uploadForm = document.getElementById('upload-form');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        
+        imageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                    
+                    // Add animation class
+                    previewImage.classList.add('animate-in');
+                    setTimeout(() => {
+                        previewImage.classList.remove('animate-in');
+                    }, 500);
+                }
+                
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Show loading overlay on form submission
+        uploadForm.addEventListener('submit', function() {
+            loadingOverlay.classList.add('active');
+        });
+        
+        // 3D hover effect for buttons
+        const submitBtn = document.getElementById('submit-btn');
+        
+        submitBtn.addEventListener('mousemove', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const deltaX = (x - centerX) / centerX;
+            const deltaY = (y - centerY) / centerY;
+            
+            this.style.transform = `perspective(500px) rotateX(${-deltaY * 5}deg) rotateY(${deltaX * 5}deg) translateZ(10px)`;
+        });
+        
+        submitBtn.addEventListener('mouseleave', function() {
+            this.style.transform = 'perspective(500px) rotateX(0) rotateY(0) translateZ(0)';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Analysis Result | Material Recognizer</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 3D Background Animation -->
+    <div class="background-animation">
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="floating-cube"></div>
+        <div class="glow-circle"></div>
+        <div class="glow-circle"></div>
+        <div class="glow-circle"></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Material Analysis Result</h1>
+            <p>Our AI has analyzed your image with high precision</p>
+        </div>
+        
+        <div class="result-container">
+            <div class="result-card material-card">
+                <div class="material-card-inner">
+                    <h2>Detected Material</h2>
+                    <p class="result-label">{{ label }}</p>
+                    
+                    <div class="confidence">
+                        <p>Confidence Level</p>
+                        <div class="confidence-bar-container">
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" id="confidence-fill"></div>
+                            </div>
+                            <div class="confidence-value">{{ confidence }}%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Material Details Card -->
+            <div class="material-details-card">
+                <div class="material-icon">
+                    {% if label.lower() == 'cardboard' %}
+                        <i class="fas fa-box"></i>
+                    {% elif label.lower() == 'glass' %}
+                        <i class="fas fa-wine-glass-alt"></i>
+                    {% elif label.lower() == 'metal' %}
+                        <i class="fas fa-cog"></i>
+                    {% elif label.lower() == 'paper' %}
+                        <i class="fas fa-file-alt"></i>
+                    {% elif label.lower() == 'plastic' %}
+                        <i class="fas fa-shopping-bag"></i>
+                    {% else %}
+                        <i class="fas fa-question-circle"></i>
+                    {% endif %}
+                </div>
+                
+                <h3>About {{ label }}</h3>
+                
+                <div class="material-info">
+                    {% if label.lower() == 'cardboard' %}
+                        <div class="info-section">
+                            <h4><i class="fas fa-info-circle"></i> Description</h4>
+                            <p>Cardboard is a thick, stiff paper-based material. It's typically made from wood pulp and is known for its durability and lightweight properties.</p>
+                        </div>
+                        <div class="info-section">
+                            <h4><i class="fas fa-recycle"></i> Recycling</h4>
+                            <p>Highly recyclable. Cardboard can be recycled 5-7 times before the fibers become too short to be useful. It decomposes within 2 months in proper conditions.</p>
+                        </div>
+                        <div class="info-section">
+                            <h4><i class="fas fa-industry"></i> Common Uses</h4>
+                            <p>Packaging, shipping boxes, food containers, beverage carriers, and crafting materials.</p>
+                        </div>
+                        <div class="material-properties-grid">
+                            <div class="property">
+                                <span class="property-name">Biodegradable</span>
+                                <span class="property-value yes"><i class="fas fa-check"></i></span>
+                            </div>
+                            <div class="property">
+                                <span class="property-name">Recyclable</span>
+                                <span class="property-value yes"><i class="fas fa-check"></i></span>
+                            </div>
+                            <div class="property">
+                                <span class="property-name">Decomposition</span>
+                                <span class="property-value">2 months</span>
+                            </div>
+                        </div>
+                    {% elif label.lower() == 'glass' %}
+                        <div class="info-section">
+                            <h4><i class="fas fa-info-circle"></i> Description</h4>
+                            <p>Glass is a non-crystalline, often transparent solid made from silica (sand), sodium carbonate, and calcium carbonate. It's known for its clarity, versatility, and recyclability.</p>
+                        </div>
+                        <div class="info-section">
+                            <h4><i class="fas fa-recycle"></i> Recycling</h4>
+                            <p>Glass is 100% recyclable and can be recycled endlessly without loss in quality or purity. It takes approximately 1 million years to decompose naturally.</p>
+                        </div>
+                        <div class="info-section">
+                            <h4><i class="fas fa-industry"></i> Common Uses</h4>
+                            <p>Containers, windows, tableware, decorative items, laboratory equipment, and optical components.</p>
+                        </div>
+                        <div class="material-properties-grid">
+                            <div class="property">
+                                <span class="property-name">Biodegradable</span>
+                                <span class="property-value no"><i class="fas fa-times"></i></span>
+                            </div>
+                            <div class="property">
+                                <span class="property-name">Recyclable</span>
+                                <span class="property-value yes"><i class="fas fa-check"></i></span>
+                            </div>
+                            <div class="property">
+                                <span class="property-name">Decomposition</span>
+                                <span class="property-value">1M+ years</span>
+                            </div>
+                        </div>
+                    {% elif label.lower() == 'metal' %}
+                        <div class="info-section">
+                            <h4><i class="fas fa-info-circle"></i> Description</h4>
+                            <p>Metals are solid materials that are typically hard, shiny, malleable, fusible, and ductile, with good electrical and thermal conductivity. Common metals include aluminum, steel, copper, and tin.</p>
+                        </div>
+                        <div class="info-section">
+                            <h4><i class="fas fa-recycle"></i> Recycling</h4>
+                            <p>Most metals are highly recyclable and can be reprocessed multiple times without degradation of properties. Aluminum cans can be recycled and back on store shelves in as little as 60 days.</p>
+                        </div>
+                        <div class="info-section">
+                            <h4><i class="fas fa-industry"></i> Common Uses</h4>
+                            <p>Food and beverage containers, construction materials, electronics, transportation, machinery, and household items.</p>
+                        </div>
+                        <div class="material-properties-grid">
+                            <div class="property">
+                                <span class="property-name">Biodegradable</span>
+                                <span class="property-value no"><i class="fas fa-times"></i></span>
+                            </div>
+                            <div class="property">
+                                <span class="property-name">Recyclable</span>
+                                <span class="property-value yes"><i class="fas fa-check"></i></span>
+                            </div>
+                            <div class="property">
+                                <span class="property-name">Energy Savings</span>
+                                <span class="property-value">95%</span>
+                            </div>
+                        </div>
+                    {% elif label.lower() == 'paper' %}
+                        <div class="info-section">
+                            <h4><i class="fas fa-info-circle"></i> Description</h4>
+                            <p>Paper is a thin material produced by pressing together moist fibers of cellulose pulp derived from wood, rags, or grasses, and drying them into flexible sheets.</p>
+                        </div>
+                        <div class="info-section">
+                            <h4><i class="fas fa-recycle"></i> Recycling</h4>
+                            <p>Paper can be recycled 5-7 times before fibers become too short. It typically decomposes within 2-6 weeks under proper conditions.</p>
+                        </div>
+                        <div class="info-section">
+                            <h4><i class="fas fa-industry"></i> Common Uses</h4>
+                            <p>Writing, printing, packaging, cleaning, and various industrial and construction processes.</p>
+                        </div>
+                        <div class="material-properties-grid">
+                            <div class="property">
+                                <span class="property-name">Biodegradable</span>
+                                <span class="property-value yes"><i class="fas fa-check"></i></span>
+                            </div>
+                            <div class="property">
+                                <span class="property-name">Recyclable</span>
+                                <span class="property-value yes"><i class="fas fa-check"></i></span>
+                            </div>
+                            <div class="property">
+                                <span class="property-name">Decomposition</span>
+                                <span class="property-value">2-6 weeks</span>
+                            </div>
+                        </div>
+                    {% elif label.lower() == 'plastic' %}
+                        <div class="info-section">
+                            <h4><i class="fas fa-info-circle"></i> Description</h4>
+                            <p>Plastic is a synthetic material made from a wide range of organic polymers that can be molded into various objects. It's lightweight, durable, and resistant to many environmental factors.</p>
+                        </div>
+                        <div class="info-section">
+                            <h4><i class="fas fa-recycle"></i> Recycling</h4>
+                            <p>Recyclability varies by type. Many plastics can be recycled, but the process is more complex than other materials. Most plastics take 500-1000 years to decompose.</p>
+                        </div>
+                        <div class="info-section">
+                            <h4><i class="fas fa-industry"></i> Common Uses</h4>
+                            <p>Packaging, containers, building materials, textiles, electronics, automotive components, and medical devices.</p>
+                        </div>
+                        <div class="material-properties-grid">
+                            <div class="property">
+                                <span class="property-name">Biodegradable</span>
+                                <span class="property-value no"><i class="fas fa-times"></i></span>
+                            </div>
+                            <div class="property">
+                                <span class="property-name">Recyclable</span>
+                                <span class="property-value partial"><i class="fas fa-exclamation"></i></span>
+                            </div>
+                            <div class="property">
+                                <span class="property-name">Decomposition</span>
+                                <span class="property-value">500+ years</span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="info-section">
+                            <h4><i class="fas fa-info-circle"></i> Description</h4>
+                            <p>Information about this material is not available in our database.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <a href="/" class="back-link">
+                <i class="fas fa-camera"></i> Analyze Another Image
+            </a>
+        </div>
+        
+        <div class="footer">
+            <p> &copy; 2025 Material Recognition Project Developed By Pranav V P. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        // Animate confidence bar
+        document.addEventListener('DOMContentLoaded', function() {
+            const confidenceFill = document.getElementById('confidence-fill');
+            const confidenceValue = {{ confidence }};
+            
+            // Add a slight delay for visual effect
+            setTimeout(() => {
+                confidenceFill.style.width = confidenceValue + '%';
+            }, 300);
+            
+            // 3D hover effect for result card
+            const materialCard = document.querySelector('.material-card');
+            
+            materialCard.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const deltaX = (x - centerX) / centerX;
+                const deltaY = (y - centerY) / centerY;
+                
+                this.querySelector('.material-card-inner').style.transform = 
+                    `perspective(1000px) rotateX(${-deltaY * 10}deg) rotateY(${deltaX * 10}deg) translateZ(20px)`;
+            });
+            
+            materialCard.addEventListener('mouseleave', function() {
+                this.querySelector('.material-card-inner').style.transform = 
+                    'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+            });
+            
+            // 3D hover effect for material details card
+            const detailsCard = document.querySelector('.material-details-card');
+            
+            detailsCard.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const deltaX = (x - centerX) / centerX;
+                const deltaY = (y - centerY) / centerY;
+                
+                this.style.transform = 
+                    `perspective(1000px) rotateX(${-deltaY * 5}deg) rotateY(${deltaX * 5}deg) translateZ(10px)`;
+            });
+            
+            detailsCard.addEventListener('mouseleave', function() {
+                this.style.transform = 
+                    'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+            });
+            
+            // 3D hover effect for back link
+            const backLink = document.querySelector('.back-link');
+            
+            backLink.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const deltaX = (x - centerX) / centerX;
+                const deltaY = (y - centerY) / centerY;
+                
+                this.style.transform = `perspective(500px) rotateX(${-deltaY * 5}deg) rotateY(${deltaX * 5}deg) translateZ(10px)`;
+            });
+            
+            backLink.addEventListener('mouseleave', function() {
+                this.style.transform = 'perspective(500px) rotateX(0) rotateY(0) translateZ(0)';
+            });
+        });
+    </script>
+</body>
+</html>
