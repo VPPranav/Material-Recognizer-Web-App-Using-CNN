@@ -194,15 +194,3 @@ This project is licensed under the MIT License. See `LICENSE` file for details.
 
 ---
 
-```
----
-
-Let me know if you'd like me to:
-
-- Export this to a file (`README.md`)
-- Generate a `requirements.txt`
-- Help you deploy it on a platform like **Render**, **Heroku**, or **Replit**  
-- Add GitHub-style badges for accuracy, tech stack, etc.
-
-Just say the word!
-```
